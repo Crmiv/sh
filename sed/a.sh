@@ -58,3 +58,35 @@ sed '3d' filename
 
 sed '/.../,/...1/d' filename
 
+#can use echo |
+sed '[address]command\
+	new line'
+
+#exp
+#group name ,multi-language
+#(?<name>...) 
+#(?P<name>...) python
+#(?P=name...) python
+
+sed '3c\
+	newline ' filename
+sed '/pattern/c\
+	newline ' filename
+
+#dont use it
+#possible happen strange thing
+sed '/pattern/1,4c\
+	newline ' filename
+
+#character change command
+sed 'y/123/456/' filename
+
+#sed print-command
+#p -- text-line
+#= -- line-number
+#l -- list
+
+#### file operation
+sed '1,2w somefile' textfile
+#from textfile get text-stream written in somefile
+
