@@ -15,3 +15,5 @@ grep -i "" filename
 grep "main()" . -r --include *.{c.cpp}
 grep "main()" . -r --exclude Makefile*
 
+seq 10 | grep 5 -A 3
+
