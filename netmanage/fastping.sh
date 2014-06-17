@@ -1,4 +1,6 @@
 #!/bin/bash
+function fastping()
+{
 for ip in 192.168.0.[1..255];
 do
 	(
@@ -11,3 +13,6 @@ do
 	)&
 done
 wait
+}
+
+
