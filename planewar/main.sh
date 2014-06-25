@@ -31,6 +31,7 @@ ship_="|__*__|"
 MAXRIGHT=73
 SHIP=30
 bottom=30
+cannoY=0
 
 randtype()
 {
@@ -45,9 +46,13 @@ randtype()
 
 drawship()
 {
-	echo "aaa"	
+	echo "aaa"
 }
 
+fly()
+{
+	;
+}
 #main
 while :
 do
@@ -55,19 +60,26 @@ do
 	case "$key" in
 		a)
 			#go to left
-			if [ $SHIP -gt 3 ];
+			if [ $SHIP -gt 3 ] && [ $ship -gt 1 ];
 			then
 				let ship--
 				#call drawback
+				tput cup $bottom $[ $ship + 3 ] 
+				echo " "
 				tput cup $bottom $ship
 				drawship
+			else
+				echo ""	
 			fi
+			
 			;;
 		d)
 			if [ $SHIP -lt 70 ];
 			then
 				let ship++
-				tput cup $bottom $ship
+				tput cup $bottom $[ $ship - 1 ]
+				echo " " 
+				tput cup $bottom $ship 
 				drawship
 			fi
 			;;
@@ -76,6 +88,11 @@ do
 			then
 				cannoX=$ship
 				cannoY=$bottom
+				#bomb fly
+				tput cup $[$bottom - 1] $[ $ship + 1 ]
+				#new function bomb fly to sky
+				fly
+				echo "Z"
 			fi
 			
 			;;
