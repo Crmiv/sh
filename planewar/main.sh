@@ -58,7 +58,7 @@ randtype()
 
 drawship()
 {
-	echo "aaa"
+	echo "|__*__|"
 }
 
 createearth()
@@ -122,7 +122,7 @@ do
 			then
 				let ship--
 				#call drawback
-				tput cup $bottom $[ $ship + 3 ] 
+				tput cup $bottom $[ $ship + 7 ] 
 				echo " "
 				tput cup $bottom $ship
 				drawship
@@ -133,7 +133,7 @@ do
 			;;
 
 		d)
-			if [ $SHIP -lt 70 ];
+			if [ $SHIP -lt 60 ];
 			then
 				let ship++
 				tput cup $bottom $[ $ship - 1 ]
@@ -151,10 +151,10 @@ do
 				cannoX=$ship
 				cannoY=$bottom
 				#bomb fly
-				tput cup $[ $bottom - 1 ] $[ $ship + 1 ]
+				tput cup $[ $bottom - 1 ] $[ $ship + 3 ]
 				#new function bomb fly to sky
 				echo "o"
-				fly $[ $ship + 1 ] $[ $bottom - 1 ]
+				fly $[ $ship + 3 ] $[ $bottom - 1 ]
 			fi
 			;;
 
