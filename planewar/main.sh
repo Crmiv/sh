@@ -6,6 +6,8 @@ stty -echo
 tput civis
 #and make appear , use `tput cvvis`
 clear
+
+#instruction
 cat - << EOF
 		
 		SPACE
@@ -15,7 +17,7 @@ cat - << EOF
 	FIRE:	f
 
 	QUIT:	q
-				press any key
+				press any key to start
 
 EOF
 
@@ -31,7 +33,9 @@ ship_="|__*__|"
 MAXRIGHT=73
 SHIP=30
 bottom=30
+cannoX=0
 cannoY=0
+fire_run=0
 
 randtype()
 {
@@ -51,8 +55,29 @@ drawship()
 
 fly()
 {
-	;
+(	fire_run=0
+	X=$1
+	Y=$2
+	while :
+	do
+		if [ $Y -le 0 ];
+		then
+			break
+		fi
+		tput cup $Y $X; echo " "
+		let Y--
+		tput cup $Y $X; echo "Z"
+		sleep 0.2
+	done
+	)&
 }
+
+#testfly()
+#{
+
+#}
+
+
 #main
 while :
 do
@@ -84,17 +109,20 @@ do
 			fi
 			;;
 		f)
-			if [ $cannoY -eq 0 ];
+			if [ $fire_run -eq 0 ];
 			then
+				
+				#already fire,can not do again
+				fire_run=1
+
 				cannoX=$ship
 				cannoY=$bottom
 				#bomb fly
-				tput cup $[$bottom - 1] $[ $ship + 1 ]
+				tput cup $[ $bottom - 1 ] $[ $ship + 1 ]
 				#new function bomb fly to sky
-				fly
 				echo "Z"
+				fly $[ $ship + 1 ] $[ $bottom - 1 ]
 			fi
-			
 			;;
 		q)
 			echo "GoodBye"
