@@ -1,2 +1,8 @@
 1.deal with move and fire at the same time
 2.manage PID
+ 4571  4574  4574  4574 pts/1    22796 Ss    1000   0:00  \_ /bin/bash
+  4574 22796 22796  4574 pts/1    22796 S+    1000   0:00  |   \_ /bin/bash ./main.sh
+  22796 22819 22796  4574 pts/1    22796 S+    1000   0:00  |       \_ /bin/bash ./main.sh
+  22819 22852 22796  4574 pts/1    22796 S+    1000   0:00  |           \_ sleep 0.2
+
+child-shell cannot change p-shell variable
