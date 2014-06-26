@@ -1,12 +1,13 @@
 #!/bin/bash
-a()
-{
-	echo "aa"
+declare -x scorekind
+scorekind[0]=1
+scorekind[1]=3
+scoreadd()
+{	
+	getscore=${scorekind[$1]}
+	echo $getscore
 }
-b()
-{
-	echo "bb"	
-}
-
-
+tput cup 0 0
+echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"	
 

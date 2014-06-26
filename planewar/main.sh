@@ -24,13 +24,13 @@ EOF
 
 #START
 read -s -n 1
+clear
 
 #enemy
 plane_=('^o^' 'xox' 'qop' '-o-' 'uou' '#o#')
 #        5     10    15    20    25     30
 rock_=('^0^' 'x0x' 'q0p' '-0-' 'u0u' '#0#')
 #        10    20    30   40    50     60
-scorekind=(5 10 15 20 25 30 10 20 30 40 50 60)
 ship_="|__*__|"
 #MAX_RIGHT=
 MAXRIGHT=73
@@ -38,8 +38,13 @@ SHIP=30
 bottom=30
 cannoX=0
 cannoY=0
+
+declare -x scorekind=(5 10 15 20 25 30 10 20 30 40 50 60)
 declare -x FIRE_RUN=0
 declare -x SCORE=0
+declare -x DELAY=1
+declare -x EARTH="##########################################################################################################################"
+
 randtype()
 {
 	if [[ $1 == "plane" ]];
@@ -56,10 +61,24 @@ drawship()
 	echo "aaa"
 }
 
+createearth()
+{
+	height=31
+	tput cup 35 0
+	#create earth
+	
+	for ((i=1; i<=3; i++))
+	do
+		echo $EARTH
+	done
+}
+
 scoreadd()
 {	
-	
-	SCORE = $[ $SCORE + $getscore ]
+	getscore=${scorekind[$1]}
+	SCORE=$[ $SCORE + $getscore ]
+	tput cup 10 100
+	echo $SCORE
 }
 
 fly()
@@ -78,12 +97,11 @@ fly()
 			fi
 			tput cup $Y $X; echo " "
 			let Y--
-			tput cup $Y $X; echo "Z"
-			sleep 0.15
+			tput cup $Y $X; echo "o"
+			sleep 0.1
 		done
 	#fi)&
 	FIRE_RUN=0
-	
 }
 
 #testfly()
@@ -92,6 +110,7 @@ fly()
 #}
 
 
+createearth
 #main
 while :
 do
@@ -110,6 +129,7 @@ do
 			else
 				echo ""	
 			fi
+			scoreadd $DELAY
 			;;
 
 		d)
@@ -133,13 +153,14 @@ do
 				#bomb fly
 				tput cup $[ $bottom - 1 ] $[ $ship + 1 ]
 				#new function bomb fly to sky
-				echo "Z"
+				echo "o"
 				fly $[ $ship + 1 ] $[ $bottom - 1 ]
 			fi
 			;;
 
 		q)
 			echo "GoodBye"
+			clear
 			tput cvvis
 			stty echo
 			trap exit ALRM
