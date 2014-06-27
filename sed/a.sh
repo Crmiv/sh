@@ -90,3 +90,5 @@ sed 'y/123/456/' filename
 sed '1,2w somefile' textfile
 #from textfile get text-stream written in somefile
 
+##pipe command to sh
+find /home/xxx -type d -print | sed 's;/xx;/yy/' | sed 's/^/mkdir /' | sh -x 

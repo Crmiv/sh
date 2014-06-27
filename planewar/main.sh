@@ -44,6 +44,7 @@ declare -x FIRE_RUN=0
 declare -x SCORE=0
 declare -x DELAY=1
 declare -x EARTH="##########################################################################################################################"
+declare -x 
 
 randtype()
 {
@@ -55,6 +56,7 @@ randtype()
 		return num="$enemy $position"
 	fi
 }
+
 
 drawship()
 {
@@ -80,6 +82,8 @@ scoreadd()
 	tput cup 10 100
 	echo $SCORE
 }
+
+
 
 fly()
 {
@@ -114,7 +118,7 @@ createearth
 #main
 while :
 do
-	read -s -n 1 key
+	{	read -s -n 1 key
 	case "$key" in
 		a)
 			#go to left
@@ -167,5 +171,5 @@ do
 			sleep $DELAY
 			exit 0
 			;;
-	esac
+	esac}&
 done
