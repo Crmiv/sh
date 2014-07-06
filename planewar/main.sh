@@ -27,10 +27,12 @@ read -s -n 1
 clear
 
 #enemy
-plane_=('^o^' 'xox' 'qop' '-o-' 'uou' '#o#')
+#plane_=('^o^' 'xox' 'qop' '-o-' 'uou' '#o#')
 #        5     10    15    20    25     30
-rock_=('^0^' 'x0x' 'q0p' '-0-' 'u0u' '#0#')
+#rock_=('^0^' 'x0x' 'q0p' '-0-' 'u0u' '#0#')
 #        10    20    30   40    50     60
+plane="|_\_"
+
 ship_="|__*__|"
 #MAX_RIGHT=
 MAXRIGHT=73
@@ -45,22 +47,54 @@ declare -x SCORE=0
 declare -x DELAY=1
 declare -x EARTH="##########################################################################################################################"
 
-randtype()
+#randtype()
+#{
+#	if [[ $1 == "plane" ]];
+#	then
+#		enemy=$[ $RANDOM % 12]
+#		position=$[ $RANDOM % 68 ]
+#		# 0-67 width
+#		return num="$enemy $position"
+#	fi
+#}
+
+drawplane()
 {
-	if [[ $1 == "plane" ]];
-	then
-		enemy=$[ $RANDOM % 12]
-		position=$[ $RANDOM % 68 ]
-		# 0-67 width
-		return num="$enemy $position"
-	fi
+	echo "|_\_"
 }
 
+flyplane()
+{
+	#init position
+	position=()
+	#move 1
+	width=()
+
+	while :
+	do
+		time_=$[ $RANDOM % 10 ]
+		#except score position
+		position_temp=$[ $RANDOM % 20 + 10 ]
+
+		sleep $time_
+		tput cup $position_temp 0
+	    drawplane	
+		
+	done	
+}
+
+variable_mange()
+{
+	#if no-use 
+	#unset
+	unset $1
+}
 
 drawship()
 {
 	echo "|__*__|"
 }
+
 
 createearth()
 {
@@ -99,6 +133,7 @@ fly()
 		do
 			if [ $Y -le 0 ];
 			then
+				tput cup $Y $X ; echo " "
 				break
 			fi
 			tput cup $Y $X; echo " "
@@ -115,8 +150,10 @@ fly()
 
 #}
 
-
+#draw earth
 createearth
+
+(flyplane)&
 #main
 while :
 do
