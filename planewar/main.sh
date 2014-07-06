@@ -44,7 +44,6 @@ declare -x FIRE_RUN=0
 declare -x SCORE=0
 declare -x DELAY=1
 declare -x EARTH="##########################################################################################################################"
-declare -x 
 
 randtype()
 {
@@ -90,10 +89,13 @@ fly()
 	#donnot change FIRE_RUN
 	X=$1
 	Y=$2
-	FIRE_RUN=1
-	#(if [ $FIRE_RUN -eq 0 ];
-	#then
-		while :
+	pgrep -F temp.tmp &> /dev/null
+	if [ $? -eq 0 ];
+	then
+		return 0;
+	fi
+
+	(while :
 		do
 			if [ $Y -le 0 ];
 			then
@@ -104,8 +106,8 @@ fly()
 			tput cup $Y $X; echo "o"
 			sleep 0.1
 		done
-	#fi)&
-	FIRE_RUN=0
+		)&
+	echo $! > temp.tmp
 }
 
 #testfly()
@@ -118,7 +120,7 @@ createearth
 #main
 while :
 do
-	{	read -s -n 1 key
+	read -s -n 1 key
 	case "$key" in
 		a)
 			#go to left
@@ -150,14 +152,13 @@ do
 		f)
 			if [ $FIRE_RUN -eq 0 ];
 			then
-					
+				
 				#already fire,can not do again
 				cannoX=$ship
 				cannoY=$bottom
 				#bomb fly
 				tput cup $[ $bottom - 1 ] $[ $ship + 3 ]
 				#new function bomb fly to sky
-				echo "o"
 				fly $[ $ship + 3 ] $[ $bottom - 1 ]
 			fi
 			;;
@@ -171,5 +172,5 @@ do
 			sleep $DELAY
 			exit 0
 			;;
-	esac}&
+	esac
 done
