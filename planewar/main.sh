@@ -41,7 +41,17 @@ bottom=30
 cannoX=0
 cannoY=0
 
-declare -x scorekind=(5 10 15 20 25 30 10 20 30 40 50 60)
+#left border
+border=0
+
+#####plane position and count
+#init position
+position=()
+#move 1
+width=()
+count_=()
+
+#declare -x scorekind=(5 10 15 20 25 30 10 20 30 40 50 60)
 declare -x FIRE_RUN=0
 declare -x SCORE=0
 declare -x DELAY=1
@@ -65,22 +75,42 @@ drawplane()
 
 flyplane()
 {
-	#init position
-	position=()
-	#move 1
-	width=()
-
+	count=0
 	while :
 	do
-		time_=$[ $RANDOM % 10 ]
+		time_=$[ $RANDOM % 10 + 4]
 		#except score position
 		position_temp=$[ $RANDOM % 20 + 10 ]
 
 		sleep $time_
-		tput cup $position_temp 0
-	    drawplane	
+		tput cup $position_temp 1
+		let count++
+		(continfly $position_temp)&
+		count_[$count]=$!
+	done
+}
+
+#temp
+continfly()
+{
+		ttmp1=$1
+		ttmp3=0
+		while [ "$ttmp3" -lt 60 ]
+		 do 
+			sleep 1
+			tput cup $ttmp1 $ttmp3
+			echo " "
+			let ttmp3++
+			tput cup $ttmp1 $ttmp3 
+			drawplane
+				
+			#let ship++
+			#tput cup $bottom $[ $ship - 1 ]
+			#echo " " 
+			#tput cup $bottom $ship 
+			#drawship
+		done
 		
-	done	
 }
 
 variable_mange()
@@ -154,6 +184,8 @@ fly()
 createearth
 
 (flyplane)&
+
+process=$!
 #main
 while :
 do
@@ -172,7 +204,7 @@ do
 			else
 				echo ""	
 			fi
-			scoreadd $DELAY
+#			scoreadd $DELAY
 			;;
 
 		d)
@@ -202,7 +234,15 @@ do
 
 		q)
 			echo "GoodBye"
+			kill -9 $process &> /dev/null
+			k=1
+			while [ "{$_count[$k]}" -gt 0 ]
+			do
+				kill -9 {$_count[$k]} &> /dev/null
+				let k++
+			done
 			clear
+			rm temp.tmp &> /dev/null
 			tput cvvis
 			stty echo
 			trap exit ALRM
